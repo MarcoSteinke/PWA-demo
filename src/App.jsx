@@ -10,16 +10,19 @@ function App() {
       e.preventDefault()
       setInstallPrompt(e)
     }
+    const onInstalled = () => setIsInstalled(true)
+
     window.addEventListener('beforeinstallprompt', handler)
 
     // Detect if already installed
     if (window.matchMedia('(display-mode: standalone)').matches) {
       setIsInstalled(true)
     }
-    window.addEventListener('appinstalled', () => setIsInstalled(true))
+    window.addEventListener('appinstalled', onInstalled)
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handler)
+      window.removeEventListener('appinstalled', onInstalled)
     }
   }, [])
 
